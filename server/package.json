@@ -11,6 +11,7 @@
         "Sebastian Bierau"
     ],
     "dependencies": {
+        "bcrypt": "^5.0.1",
         "express": "^4.17.2",
         "nodejs": "0.0.0",
         "nodemon": "^2.0.15"

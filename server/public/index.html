@@ -8,10 +8,11 @@
 </head>
 <body>
     <h1>Pizzaria</h1>
-    <form action="/login" method="post" enctype="application/x-www-form-urlencoded">
-        <input type="text" placeholder="Benutzername" name="Benutzername" id="1">
-        <input type="password" name="Passwort" id="2">
+    <form action="/" method="post" enctype="application/x-www-form-urlencoded">
+        <input type="text" placeholder="Benutzername" name="Benutzername" id="1" maxlength="30" autocomplete="off" required>
+        <input type="password" placeholder="Passwort" name="Passwort" id="2" maxlength="30" autocomplete="off" required>
         <input type="submit" value="Einloggen">
     </form>
+    <p>Sie haben noch kein Konto?<br>Bitte registrieren Sie sich <a href="/register">hier</a>.</p>
 </body>
 </html>

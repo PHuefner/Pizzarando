@@ -1,0 +1,16 @@
+html
+    head
+        title= title 
+    body   
+        h1= "Pizzen"
+        table(style='width:100%', boderwidth="10rem")
+            tr
+                th Name
+                th €
+                th <input name="select_all" value="1" type="checkbox">
+            tbody
+                each RowDataPacket in data
+                    tr
+                        td #{RowDataPacket.bezeichnung}
+                        td #{RowDataPacket.preis}
+                        td <input name=#{RowDataPacket.pNr} value="1" type="checkbox">

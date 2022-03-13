@@ -13,8 +13,10 @@
     "dependencies": {
         "bcrypt": "^5.0.1",
         "express": "^4.17.2",
+        "mysql": "^2.18.1",
         "nodejs": "0.0.0",
-        "nodemon": "^2.0.15"
+        "nodemon": "^2.0.15",
+        "pug": "^3.0.2"
     },
     "scripts": {
         "start": "nodemon server.js"

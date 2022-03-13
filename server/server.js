@@ -12,7 +12,7 @@ const app = express();
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded());
 app.set("view engine", "pug");
-const port = 3000;
+const port = 80;
 
 try {
     Database.connection.connect();
@@ -26,17 +26,22 @@ try {
 
 app.post("/login", async (req, res) => {
     if (await checkAccount(req)) {
-        res.sendFile(__dirname + "/public/homepage.html");
+        res.send("Pizza ist Unterwegs");
     } else {
         res.sendFile(__dirname + "/public/errorPage.html");
     }
 });
 
 async function checkAccount(req) {
-    var username = req.body.Benutzername;
+    var email = req.body.Email;
     var password = req.body.Passwort;
     try {
-        if (await bcrypt.compare(password, findUser(username).password)) {
+        var registeredUser;
+        Database.findUser(email, (user) => {
+            registeredUser = user;
+            console.log(JSON.stringify(user));
+        });
+        if (await bcrypt.compare(password, registeredUser.password)) {
             return true;
         }
     } catch (error) {
@@ -59,7 +64,7 @@ function findUserA(username) {
 
 app.post("/register", async (req, res) => {
     if (await registerAccount(req)) {
-        res.sendFile(__dirname + "/public/index.html");
+        res.redirect("/login");
     } else {
         res.sendFile(__dirname + "/public/errorPage.html");
     }
@@ -67,18 +72,17 @@ app.post("/register", async (req, res) => {
 
 async function registerAccount(req) {
     var password = await hashIt(req.body.Passwort);
-    console.log(password);
     var user = {
-        name: req.body.Benutzername,
+        name: req.body.Name,
+        email: req.body.Email,
         password: password,
         phone: req.body.Telefonnummer,
         plz: req.body.PLZ,
         adress: req.body.Adresse,
     };
     console.log(JSON.stringify(user));
-    if (!alreadyExists(user.name)) {
-        db.users.push(user);
-        saveDB(db);
+    if (!alreadyExists(user.email)) {
+        Database.addUser(user);
         return true;
     } else {
         return false;
@@ -98,7 +102,7 @@ function saveDB(db) {
     });
 }
 
-function alreadyExists(name) {
+function alreadyExistsJ(name) {
     var exists = false;
     db.users.forEach((element) => {
         if (element.name == name) {
@@ -109,11 +113,30 @@ function alreadyExists(name) {
     return exists;
 }
 
+function alreadyExists(email) {
+    var exists = false;
+    Database.findUser(email, (user) => {
+        if (user != null) {
+            exists = true;
+        }
+    });
+    return exists;
+}
+
+//select pizza
+
+app.post("/menu", (req, res) => {
+    console.log(req.body);
+    res.redirect("/login");
+});
+
+//function add
+
 // get-requests
 
 app.get("/", (req, res) => {
-    Database.findUser("fabian.mueller@gmail.com", (username) => {
-        console.log(username);
+    Database.findUser("paul.huefner@gmail.com", (user) => {
+        console.log(user.name);
     });
     res.sendFile(__dirname + "/public/homepage.html");
 });
@@ -127,7 +150,6 @@ app.get("/register", (req, res) => {
 });
 
 app.get("/menu", async (req, res) => {
-    //res.sendFile(__dirname + "public/menu.html");
     Database.getPizza((err, result) => {
         if (err) res.sendFile(__dirname + "/public/errorPage.html");
         else res.render("index.pug", { title: "Pizzarando", data: result });

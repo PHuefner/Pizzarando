@@ -3,14 +3,16 @@ html
         title= title
     body
         h1= "Pizzen"
-        table(style='width:100%', boderwidth="10rem")
-            tr
-                th Name
-                th €
-                th Auswahl
-            tbody
-                each RowDataPacket in data
-                    tr
-                        td #{RowDataPacket.bezeichnung}
-                        td #{RowDataPacket.preis}
-                        td <input name=#{RowDataPacket.pNr} value="1" type="checkbox">
+        form(action="/menu", method="post")
+            table(style='width:100%', boderwidth="10rem")
+                tr
+                    th Name
+                    th €
+                    th Auswahl
+                tbody
+                    each RowDataPacket in data
+                        tr
+                            td #{RowDataPacket.bezeichnung}
+                            td #{RowDataPacket.preis}
+                            td <input name=#{RowDataPacket.pNr} value="1" type="checkbox">
+            button(type="submit") Auswählen

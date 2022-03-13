@@ -347,13 +347,13 @@ ALTER TABLE `bestellung_pizza`
 -- Constraints der Tabelle `koch`
 --
 ALTER TABLE `koch`
-  ADD CONSTRAINT `pID` FOREIGN KEY (`pID`) REFERENCES `person` (`pID`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `pID` FOREIGN KEY (`pID`) REFERENCES `person` (`pID`) ON UPDATE CASCADE; -- CASCADE Problem
 
 --
 -- Constraints der Tabelle `kunde`
 --
 ALTER TABLE `kunde`
-  ADD CONSTRAINT `kunde_ibfk_1` FOREIGN KEY (`pID`) REFERENCES `person` (`pID`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `kunde_ibfk_1` FOREIGN KEY (`pID`) REFERENCES `person` (`pID`) ON UPDATE CASCADE; -- CASCADE Problem
 
 --
 -- Constraints der Tabelle `pizza_zutat`

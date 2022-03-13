@@ -6,7 +6,7 @@ const db = require("./db.json");
 const fs = require("fs");
 const { getSystemErrorMap } = require("util");
 const bcrypt = require("bcrypt");
-const mysql = require("mysql");
+const Database = require("../database/database.js");
 
 const app = express();
 app.use(express.static("public"));
@@ -14,9 +14,15 @@ app.use(bodyParser.urlencoded());
 app.set("view engine", "pug");
 const port = 3000;
 
+try {
+    Database.connection.connect();
+} catch (error) {
+    console.log(error);
+}
+
 // post-requests
 
-    //login
+//login
 
 app.post("/login", async (req, res) => {
     if (await checkAccount(req)) {
@@ -36,12 +42,12 @@ async function checkAccount(req) {
     } catch (error) {
         return false;
     }
-    return false;   
+    return false;
 }
 
 function findUserA(username) {
     var user;
-    db.users.forEach(element => {
+    db.users.forEach((element) => {
         if (element.name == username) {
             user = element;
         }
@@ -49,10 +55,9 @@ function findUserA(username) {
     return user;
 }
 
-    //register
+//register
 
 app.post("/register", async (req, res) => {
-
     if (await registerAccount(req)) {
         res.sendFile(__dirname + "/public/index.html");
     } else {
@@ -64,11 +69,11 @@ async function registerAccount(req) {
     var password = await hashIt(req.body.Passwort);
     console.log(password);
     var user = {
-        "name" : req.body.Benutzername,
-        "password" : password,
-        "phone" : req.body.Telefonnummer,
-        "plz" : req.body.PLZ,
-        "adress" : req.body.Adresse
+        name: req.body.Benutzername,
+        password: password,
+        phone: req.body.Telefonnummer,
+        plz: req.body.PLZ,
+        adress: req.body.Adresse,
     };
     console.log(JSON.stringify(user));
     if (!alreadyExists(user.name)) {
@@ -95,7 +100,7 @@ function saveDB(db) {
 
 function alreadyExists(name) {
     var exists = false;
-    db.users.forEach(element => {
+    db.users.forEach((element) => {
         if (element.name == name) {
             console.log("True");
             exists = true;
@@ -107,13 +112,15 @@ function alreadyExists(name) {
 // get-requests
 
 app.get("/", (req, res) => {
-    findUser("fabian.mueller@gmail.com");
+    Database.findUser("fabian.mueller@gmail.com", (username) => {
+        console.log(username);
+    });
     res.sendFile(__dirname + "/public/homepage.html");
 });
 
 app.get("/login", (req, res) => {
-    res.sendFile(__dirname + "/public/login.html")
-})
+    res.sendFile(__dirname + "/public/login.html");
+});
 
 app.get("/register", (req, res) => {
     res.sendFile(__dirname + "/public/register.html");
@@ -121,50 +128,12 @@ app.get("/register", (req, res) => {
 
 app.get("/menu", async (req, res) => {
     //res.sendFile(__dirname + "public/menu.html");
-    getPizza((err, result) => {
-        if (err)
-            res.sendFile(__dirname + "/public/errorPage.html");
-        else
-            res.render("index.pug", {title: "Pizzarando", data: result});
-    })
+    Database.getPizza((err, result) => {
+        if (err) res.sendFile(__dirname + "/public/errorPage.html");
+        else res.render("index.pug", { title: "Pizzarando", data: result });
+    });
 });
 
 app.listen(port, () => {
     console.log("Server gestartet auf Port:" + port);
 });
-
-//database connection
-
-var connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "pizzarando",
-  });
-
-try {
-    connection.connect();
-} catch (error) {
-    console.log("No db.");
-}
-
-function findUser(email) {
-    connection.query("SELECT * FROM person WHERE email LIKE ?", [email], (err, result) => {
-        if (err) {
-            throw err;
-        }
-        console.log(result[0].name);
-    });
-}
-
-async function getPizza(callback) {
-    connection.query("SELECT * FROM pizza", (err, result) => {
-        if (err) {
-            callback(err, null);
-        } else {
-            callback(null, result);
-        }
-    });
-}
-
-// connection.end();

@@ -122,7 +122,8 @@ INSERT INTO `kunde` (`pID`, `plz`, `telNr`, `straße`, `hausNr`) VALUES
 CREATE TABLE `person` (
   `pID` int(3) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `vorname` varchar(100) NOT NULL
+  `vorname` varchar(100) NOT NULL,
+  `email` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

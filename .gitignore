@@ -27,3 +27,6 @@ node_modules/
 
 # Test
 *.json
+
+# images
+/public/imgs

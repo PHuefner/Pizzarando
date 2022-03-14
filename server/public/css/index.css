@@ -1,1 +1,34 @@
-/* No CSS *//*# sourceMappingURL=index.css.map */
+body {
+  background-color: #efe9dc;
+  color: #bf5841;
+  font-size: 1.25em;
+}
+
+body header #head {
+  background-color: #f2b680;
+  text-align: center;
+  font-size: 2.5vh;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+  margin-left: 15vw;
+  margin-right: 15vw;
+}
+
+body #banner {
+  height: 50vh;
+  width: 100%;
+  overflow: hidden;
+  background-image: url("../imgs/pizza_banner.jpg");
+  background-position: 100% 50%;
+  background-attachment: fixed;
+}
+
+body #main-block {
+  background-color: #f2b680;
+  text-align: center;
+}
+
+body footer {
+  text-align: center;
+}
+/*# sourceMappingURL=index.css.map */

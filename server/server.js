@@ -132,9 +132,6 @@ app.post("/menu", (req, res) => {
 // get-requests
 
 app.get("/", (req, res) => {
-    Database.findUser("paul.huefner@gmail.com", (user) => {
-        console.log(user.name);
-    });
     res.sendFile(__dirname + "/public/homepage.html");
 });
 

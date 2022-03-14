@@ -1,0 +1,35 @@
+body {
+    background-color: #efe9dc;
+    color: #bf5841;
+    font-size: 1.25em;
+
+    header {
+        #head {
+            background-color: #f2b680;
+            text-align: center;
+            font-size: 2.5vh;
+            margin-top: 0.2em;
+            margin-bottom: 0.2em;
+            margin-left: 15vw;
+            margin-right: 15vw;
+        }
+    }
+
+    #banner {
+        height: 50vh;
+        width: 100%;
+        overflow: hidden;
+        background-image: url("../imgs/pizza_banner.jpg");
+        background-position: 100% 50%;
+        background-attachment: fixed;
+    }
+
+    #main-block {
+        background-color: #f2b680;
+        text-align: center;
+    }
+
+    footer {
+        text-align: center;
+    }
+}

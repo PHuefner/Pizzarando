@@ -35,22 +35,20 @@ app.post("/login", async (req, res) => {
 async function checkAccount(req) {
     var email = req.body.Email;
     var password = req.body.Passwort;
-    try {
-        var registeredUser;
-        Database.findUser(email, (user) => {
-            registeredUser = user;
-            console.log(JSON.stringify(user));
-        });
-        if (await bcrypt.compare(password, registeredUser.password)) {
-            return true;
+    var user = await Database.findUser(email);
+    if (user != undefined) {
+        try {
+            if (await bcrypt.compare(password, user.passwort)) {
+                return true;
+            }
+        } catch (error) {
+            return false;
         }
-    } catch (error) {
-        return false;
     }
     return false;
 }
 
-function findUserA(username) {
+/*function findUserA(username) {
     var user;
     db.users.forEach((element) => {
         if (element.name == username) {
@@ -58,7 +56,7 @@ function findUserA(username) {
         }
     });
     return user;
-}
+}*/
 
 //register
 
@@ -81,7 +79,8 @@ async function registerAccount(req) {
         adress: req.body.Adresse,
     };
     console.log(JSON.stringify(user));
-    if (!alreadyExists(user.email)) {
+    console.log(JSON.stringify(req.body.Passwort));
+    if (!(await alreadyExists(user.email))) {
         Database.addUser(user);
         return true;
     } else {
@@ -94,7 +93,7 @@ async function hashIt(password) {
     return encryptedPassword;
 }
 
-function saveDB(db) {
+/*function saveDBJ(db) {
     fs.writeFile("db.json", JSON.stringify(db, null, 4), "utf8", (err) => {
         if (err) {
             console.log(err);
@@ -111,16 +110,14 @@ function alreadyExistsJ(name) {
         }
     });
     return exists;
-}
+}*/
 
-function alreadyExists(email) {
-    var exists = false;
-    Database.findUser(email, (user) => {
-        if (user != null) {
-            exists = true;
-        }
-    });
-    return exists;
+async function alreadyExists(email) {
+    if ((await Database.findUser(email)) == undefined) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 //select pizza
@@ -150,9 +147,9 @@ app.get("/register", (req, res) => {
 });
 
 app.get("/menu", async (req, res) => {
-    Database.getPizza((err, result) => {
-        if (err) res.sendFile(__dirname + "/public/errorPage.html");
-        else res.render("index.pug", { title: "Pizzarando", data: result });
+    res.render("index.pug", {
+        title: "Pizzarando",
+        data: await Database.getPizza(),
     });
 });
 

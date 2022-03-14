@@ -1,4 +1,6 @@
 //database connection
+const { syncBuiltinESMExports } = require("module");
+const { threadId } = require("worker_threads");
 const mysql = require("../server/node_modules/mysql");
 
 var connection = mysql.createConnection({
@@ -9,62 +11,57 @@ var connection = mysql.createConnection({
     port: 3306,
 });
 
-function findUser(email, callback) {
-    connection.query(
-        "SELECT * FROM person, kunde WHERE person.pID = kunde.pID AND email LIKE ?",
-        [email],
-        (err, result) => {
-            if (err) {
-                throw err;
-            } else if (result[0] != undefined) {
-                callback(result[0]);
+function findUser(email) {
+    return new Promise((user) => {
+        connection.query(
+            "SELECT * FROM person, kunde WHERE person.pID = kunde.pID AND person.email LIKE ?;",
+            [email],
+            (err, result) => {
+                if (err) throw err;
+                user(result[0]);
             }
-        }
-    );
+        );
+    });
 }
 
 function addUser(user) {
-    var usercount = 0;
-    connection.query("SELECT MAX(pID) FROM person", (err, result) => {
-        usercount = result[0].MAX(pID) + 1;
-        console.log(result[0].MAX(pID));
-    });
-    console.log(usercount);
-    var fname = user.name.split(",")[0];
-    var lname = user.name.split(",")[1].split(" ").join("");
-    var values = [usercount, lname, fname, user.email];
-    connection.query(
-        "INSERT INTO person(pID, name, vorname, email) VALUES (?)",
-        [values],
-        (err, result) => {
-            if (err) throw err;
-            console.log(result);
-        }
-    );
-    values = [
-        usercount,
+    var valuesP = [
+        user.name.split(",")[1].split(" ").join(""),
+        user.name.split(",")[0],
+        user.email,
+    ];
+    var valuesK = [
         user.plz,
         user.phone,
         user.adress.split(",")[0],
         user.adress.split(",")[1].split(" ").join(""),
+        user.password,
     ];
     connection.query(
-        "INSERT INTO kunde(pID, plz, telNr, straße, hausNr) VALUES (?)",
-        [values],
+        "INSERT INTO person SELECT MAX(pID) + 1, ? FROM person;",
+        [valuesP],
         (err, result) => {
             if (err) throw err;
-            console.log(result);
+            connection.query(
+                "INSERT INTO kunde SELECT MAX(pID), ? FROM person;",
+                [valuesK],
+                (err, result) => {
+                    if (err) throw err;
+                }
+            );
         }
     );
 }
 
-function getPizza(callback) {
-    connection.query("SELECT * FROM pizza", (err, result) => {
-        if (err) {
-            callback(err, null);
-        } else {
-            callback(null, result);
-        }
+function getPizza() {
+    return new Promise((pizza) => {
+        connection.query("SELECT * FROM pizza;", (err, result) => {
+            if (err) {
+                throw err;
+            } else {
+                pizza(result);
+            }
+        });
     });
 }
 

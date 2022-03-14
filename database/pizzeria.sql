@@ -99,7 +99,8 @@ CREATE TABLE `kunde` (
   `plz` varchar(10) NOT NULL,
   `telNr` varchar(50) NOT NULL,
   `straße` varchar(50) NOT NULL,
-  `hausNr` int(3) NOT NULL
+  `hausNr` int(3) NOT NULL,
+  `passwort` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -347,13 +348,13 @@ ALTER TABLE `bestellung_pizza`
 -- Constraints der Tabelle `koch`
 --
 ALTER TABLE `koch`
-  ADD CONSTRAINT `pID` FOREIGN KEY (`pID`) REFERENCES `person` (`pID`) ON UPDATE CASCADE; -- CASCADE Problem
+  ADD CONSTRAINT `pID` FOREIGN KEY (`pID`) REFERENCES `person` (`pID`) ON UPDATE CASCADE;
 
 --
 -- Constraints der Tabelle `kunde`
 --
 ALTER TABLE `kunde`
-  ADD CONSTRAINT `kunde_ibfk_1` FOREIGN KEY (`pID`) REFERENCES `person` (`pID`) ON UPDATE CASCADE; -- CASCADE Problem
+  ADD CONSTRAINT `kunde_ibfk_1` FOREIGN KEY (`pID`) REFERENCES `person` (`pID`) ON UPDATE CASCADE;
 
 --
 -- Constraints der Tabelle `pizza_zutat`

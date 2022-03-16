@@ -1,9 +1,10 @@
 import java.util.ArrayList;
 
 class Verwaltung{
-    private boolean geoeffnet;
-    private ArrayList<Bestellung> bestellungen;
+    private static boolean geoeffnet;
+    private static ArrayList<Bestellung> bestellungen;
     private ArrayList<Koch> koeche;
+    private DB db;
 
     public Verwaltung(){
         bestellungen = new ArrayList<>();
@@ -14,7 +15,7 @@ class Verwaltung{
         return bestellungen.add(neu);
     }
 
-    public Bestellung entnehemen(){
+    public static Bestellung entnehemen(){
         Bestellung b = bestellungen.get(0);
         bestellungen.remove(bestellungen.get(0));
         return b;
@@ -31,4 +32,9 @@ class Verwaltung{
     public String toString() {
         return null;
     }
+
+    public static boolean getGeoeffnet(){
+        return geoeffnet;
+    }
+
 }

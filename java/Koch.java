@@ -1,3 +1,6 @@
+import java.sql.Time;
+import java.util.ArrayList;
+
 public class Koch extends Thread{
     private String name, vorname;
     private int sterne;
@@ -10,10 +13,23 @@ public class Koch extends Thread{
 
     @Override
     public void run() {
-        
+        while(Verwaltung.getGeoeffnet()){
+            try {
+                zubereiten(Verwaltung.entnehemen());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    public boolean zubereiten(Bestellung b){
-        return false;
+    public boolean zubereiten(Bestellung b) throws InterruptedException{
+        int menge = 0;
+        int k = 300000;
+
+        for(int i = 0; i < b.getBestellposition().size(); i++){
+            menge += b.getBestellposition().get(i).getMenge();
+        }
+        sleep(menge * k * 1/(sterne * 1000));
+        return true;
     }
 }

@@ -28,4 +28,8 @@ public class Bestellung {
     public String toString(){
         return null;
     }
+
+    public ArrayList<Bestellposition> getBestellposition() {
+        return bestellposition;
+    }
 }

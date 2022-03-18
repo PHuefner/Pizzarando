@@ -14,12 +14,6 @@ app.use(bodyParser.urlencoded());
 app.set("view engine", "pug");
 const port = 80;
 
-try {
-    Database.connection.connect();
-} catch (error) {
-    console.log(error);
-}
-
 // post-requests
 
 //login

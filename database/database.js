@@ -5,7 +5,7 @@ const { threadId } = require("worker_threads");
 const mysql = require("../server/node_modules/mysql");
 
 var connection = mysql.createPool({
-    host: "192.168.137.175", //Host der Datenbank eintragen ("localhost" für xampp)
+    host: "192.168.137.175", //ersetzen durch den Host ("localhost" für XAMPP)
     user: "pizza", //ersetzen durch "root"
     password: "123", //ersetzen durch ""
     database: "pizzarando",

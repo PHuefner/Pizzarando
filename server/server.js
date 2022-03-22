@@ -137,6 +137,14 @@ app.get("/register", (req, res) => {
     res.sendFile(__dirname + "/public/register.html");
 });
 
+app.get("/impressum", (req, res) => {
+    res.sendFile(__dirname + "/public/impressum.html");
+});
+
+app.get("/kontakt", (req, res) => {
+    res.sendFile(__dirname + "/public/kontakt.html");
+});
+
 app.get("/menu", async (req, res) => {
     res.render("index.pug", {
         title: "Pizzarando",

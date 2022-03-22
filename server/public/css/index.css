@@ -1,34 +1,135 @@
 body {
   background-color: #efe9dc;
   color: #bf5841;
-  font-size: 1.25em;
+  font-size: 3vmin;
+  margin: 0%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  min-height: 100vh;
+}
+
+body input {
+  font-size: 3vmin;
+}
+
+body a {
+  color: #bf5841;
+  text-decoration: underline;
+}
+
+body a:hover {
+  color: #f23030;
+  text-decoration: none;
+}
+
+body header {
+  margin-top: 2vmin;
+  margin-bottom: 2vmin;
+  margin-left: 3vmin;
+  margin-right: 3vmin;
+}
+
+body header a {
+  color: #bf5841;
+  text-decoration: none;
 }
 
 body header #head {
   background-color: #f2b680;
   text-align: center;
-  font-size: 2.5vh;
-  margin-top: 0.2em;
-  margin-bottom: 0.2em;
-  margin-left: 15vw;
-  margin-right: 15vw;
+  font-size: 14vmin;
+}
+
+body header #head #menu {
+  position: absolute;
+  font-size: 3vmin;
+  right: 3vmax;
+  top: 9vmin;
 }
 
 body #banner {
   height: 50vh;
   width: 100%;
-  overflow: hidden;
-  background-image: url("../imgs/pizza_banner.jpg");
-  background-position: 100% 50%;
-  background-attachment: fixed;
+  background-image: url(../imgs/pizza_banner.jpg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  max-height: 3032px;
+  margin-bottom: 0%;
+  margin-left: 0%;
+  margin-right: 0%;
 }
 
 body #main-block {
   background-color: #f2b680;
   text-align: center;
+  margin-bottom: auto;
+}
+
+body #table {
+  background-color: #f2b680;
+  text-align: center;
+  border-color: #f23030;
+}
+
+body #table #titles {
+  font-size: 4vmin;
+}
+
+body #table #titles th {
+  border-bottom: solid black;
+}
+
+body #table tbody {
+  font-size: 3vmin;
+  text-align: center;
+}
+
+body #table button {
+  font-size: 3vmin;
+  float: right;
+  margin-right: 2vmin;
+  margin-bottom: 1vmin;
+  background-color: #efe9dc;
+  color: #bf5841;
+  border: 0.01vmin solid #f23030;
+}
+
+body #table button:hover {
+  font-size: 3vmin;
+  float: right;
+  margin-right: 2vmin;
+  margin-bottom: 1vmin;
+  border: 0.01vmin solid #f23030;
+  background-color: #bf5841;
+  color: #efe9dc;
+}
+
+body #table #checkbox {
+  border: 0.01vmin solid #f23030;
+}
+
+body #table #checkbox:checked {
+  border: 0.01vmin solid #f23030;
+  background-color: #bf5841;
 }
 
 body footer {
+  margin-top: auto;
   text-align: center;
+  position: relative;
+  width: 100%;
+  bottom: 0px;
+}
+
+body footer a {
+  margin-inline: 10vmax;
+  color: #bf5841;
+  text-decoration: none;
 }
 /*# sourceMappingURL=index.css.map */

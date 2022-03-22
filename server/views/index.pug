@@ -4,17 +4,26 @@ html
         link(rel="stylesheet", href="css/index.css")
         link(rel="shortcut icon", href="imgs/favicon.png", type="image/png")
     body
-        h1= "Pizzen"
-        form(action="/menu", method="post")
-            table(style='width:100%', boderwidth="10rem")
-                tr
-                    th Name
-                    th €
-                    th Auswahl
-                tbody
-                    each RowDataPacket in data
-                        tr
-                            td #{RowDataPacket.bezeichnung}
-                            td #{RowDataPacket.preis}
-                            td <input name=#{RowDataPacket.pNr} value="1" type="checkbox">
-            button(type="submit") Auswählen
+        header
+            #head
+                a(href="/") Pizzarando
+        #table
+            h1= "Pizzen"
+            form(action="/menu", method="post")
+                table(style='width:100%', boderwidth="10rem")
+                    tr#titles
+                        th Name
+                        th €
+                        th Auswahl
+                    tbody#data
+                        each RowDataPacket in data
+                            tr
+                                td #{RowDataPacket.bezeichnung}
+                                td #{RowDataPacket.preis}
+                                td <input name=#{RowDataPacket.pNr} value="1" type="checkbox" id="checkbox">
+                button(type="submit") Auswählen
+        footer
+            h4
+                a(href="/impressum") Impressum
+                a(href="") @Pizzarando
+                a(href="/kontakt") Kontakt

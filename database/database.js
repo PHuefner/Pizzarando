@@ -5,9 +5,9 @@ const { threadId } = require("worker_threads");
 const mysql = require("../server/node_modules/mysql");
 
 var connection = mysql.createPool({
-    host: "192.168.137.175", //ersetzen durch den Host ("localhost" für XAMPP)
+    host: "192.168.1.100", //ersetzen durch den Host ("localhost" für XAMPP)
     user: "pizza", //ersetzen durch "root"
-    password: "123", //ersetzen durch ""
+    password: "", //ersetzen durch ""
     database: "pizzarando",
     port: 3306,
 });
@@ -27,28 +27,32 @@ function findUser(email) {
 
 function addBestellung(pID, pNr) {
     var date = Date.now();
-    connection.query("SELECT MAX(bID) FROM bestellung;",
-    (err, result) => {
+    connection.query("SELECT MAX(bID) FROM bestellung;", (err, result) => {
         if (err) console.log(err);
         if (result == null)
-            connection.query("INSERT INTO bestellung VALUES (0, ?);",
+            connection.query(
+                "INSERT INTO bestellung VALUES (0, ?);",
+                [date],
+                (err, result) => {
+                    if (err) console.log(err);
+                }
+            );
+        connection.query(
+            "INSERT INTO bestellung SELECT MAX(bID) + 1, ? FROM bestellung;",
             [date],
             (err, result) => {
                 if (err) console.log(err);
-            });
-            connection.query("INSERT INTO bestellung SELECT MAX(bID) + 1, ? FROM bestellung;",
-            [date],
-            (err, result) => {
-                if (err) console.log(err);
-            });
+            }
+        );
     });
-    connection.query("INSERT INTO bestellung_kunde SELECT MAX(bID) + 1, ? FROM bestellung;",
-    [pID],
-    (err, result) => {
-        if (err) console.log(err);
-    });
+    connection.query(
+        "INSERT INTO bestellung_kunde SELECT MAX(bID) + 1, ? FROM bestellung;",
+        [pID],
+        (err, result) => {
+            if (err) console.log(err);
+        }
+    );
     connection.query("INSERT INTO bestellung_pizza SELECT ?, ");
-
 }
 
 function addUser(user) {
